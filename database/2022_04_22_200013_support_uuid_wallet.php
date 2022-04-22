@@ -20,7 +20,6 @@ return new class() extends Migration {
             $table->removeColumn('payable_id');
             $table->uuid('payable_id')
                 ->after('payable_type')
-                ->change()
             ;
 
             $table->index(['payable_type', 'payable_id'], 'payable_type_payable_id_ind');
@@ -35,7 +34,6 @@ return new class() extends Migration {
             $table->removeColumn('holder_id');
             $table->uuid('holder_id')
                 ->after('holder_type')
-                ->change()
             ;
 
             $table->unique(['holder_type', 'holder_id', 'slug']);
