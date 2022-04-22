@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Schema;
 return new class() extends Migration {
     public function up(): void
     {
-        Schema::whenTableHasColumn($this->transactionTable(), 'payable_id', static function (Blueprint $table) {
+        Schema::table($this->transactionTable(), static function (Blueprint $table) {
             $table->dropColumn('payable_id');
         });
 
-        Schema::whenTableHasColumn($this->walletTable(), 'holder_id', static function (Blueprint $table) {
+        Schema::table($this->walletTable(), static function (Blueprint $table) {
             $table->dropColumn('holder_id');
         });
     }
