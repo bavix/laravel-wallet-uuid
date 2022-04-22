@@ -16,12 +16,12 @@ return new class() extends Migration {
             $table->dropIndex('payable_type_ind');
             $table->dropIndex('payable_confirmed_ind');
             $table->dropIndex('payable_type_confirmed_ind');
-            $table->removeColumn('payable_id');
+            $table->dropColumn('payable_id');
         });
 
         Schema::table($this->walletTable(), static function (Blueprint $table): void {
             $table->dropUnique(['holder_type', 'holder_id', 'slug']);
-            $table->removeColumn('holder_id');
+            $table->dropColumn('holder_id');
         });
     }
 
