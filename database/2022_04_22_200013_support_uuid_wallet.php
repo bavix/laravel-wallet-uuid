@@ -5,12 +5,27 @@ declare(strict_types=1);
 use Bavix\Wallet\Models\Transaction;
 use Bavix\Wallet\Models\Wallet;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\PostgresConnection;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class() extends Migration {
     public function up(): void
     {
+        if (Schema::getConnection() instanceof PostgresConnection) {
+            Schema::table($this->transactionTable(), static function (Blueprint $table) {
+                $table->string('payable_id')
+                    ->change()
+                ;
+            });
+
+            Schema::table($this->walletTable(), static function (Blueprint $table) {
+                $table->string('holder_id')
+                    ->change()
+                ;
+            });
+        }
+
         Schema::table($this->transactionTable(), static function (Blueprint $table) {
             $table->uuid('payable_id')
                 ->change()
