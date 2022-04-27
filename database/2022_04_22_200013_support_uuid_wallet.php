@@ -12,18 +12,13 @@ use Illuminate\Support\Facades\Schema;
 return new class() extends Migration {
     public function up(): void
     {
-        if (Schema::getConnection() instanceof PostgresConnection) {
-            Schema::table($this->transactionTable(), static function (Blueprint $table) {
-                $table->string('payable_id')
-                    ->change()
-                ;
-            });
+        $connection = Schema::getConnection();
 
-            Schema::table($this->walletTable(), static function (Blueprint $table) {
-                $table->string('holder_id')
-                    ->change()
-                ;
-            });
+        if ($connection instanceof PostgresConnection) {
+            $connection->statement('ALTER TABLE '.$this->transactionTable().' ALTER payable_id::uuid TYPE UUID');
+            $connection->statement('ALTER TABLE '.$this->walletTable().' ALTER holder_id::uuid TYPE UUID');
+
+            return;
         }
 
         Schema::table($this->transactionTable(), static function (Blueprint $table) {
