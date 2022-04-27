@@ -16,10 +16,10 @@ return new class() extends Migration {
 
         if ($connection instanceof PostgresConnection) {
             $connection->statement(
-                'ALTER TABLE '.$this->transactionTable().' ALTER payable_id TYPE UUID USING payable_id::uuid;'
+                'ALTER TABLE '.$connection->getTablePrefix().$this->transactionTable().' ALTER payable_id TYPE UUID USING payable_id::uuid;'
             );
             $connection->statement(
-                'ALTER TABLE '.$this->walletTable().' ALTER holder_id TYPE UUID USING holder_id::uuid;'
+                'ALTER TABLE '.$connection->getTablePrefix().$this->walletTable().' ALTER holder_id TYPE UUID USING holder_id::uuid;'
             );
 
             return;
