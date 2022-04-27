@@ -15,6 +15,18 @@ return new class() extends Migration {
         $connection = Schema::getConnection();
 
         if ($connection instanceof PostgresConnection) {
+            Schema::table($this->transactionTable(), static function (Blueprint $table) {
+                $table->string('payable_id')
+                    ->change()
+                ;
+            });
+
+            Schema::table($this->walletTable(), static function (Blueprint $table) {
+                $table->string('holder_id')
+                    ->change()
+                ;
+            });
+
             $connection->statement(
                 'ALTER TABLE '.$connection->getTablePrefix().$this->transactionTable().' ALTER payable_id TYPE UUID USING payable_id::uuid;'
             );
