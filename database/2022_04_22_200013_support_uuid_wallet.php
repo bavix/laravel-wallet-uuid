@@ -15,8 +15,12 @@ return new class() extends Migration {
         $connection = Schema::getConnection();
 
         if ($connection instanceof PostgresConnection) {
-            $connection->statement('ALTER TABLE '.$this->transactionTable().' ALTER payable_id::uuid TYPE UUID');
-            $connection->statement('ALTER TABLE '.$this->walletTable().' ALTER holder_id::uuid TYPE UUID');
+            $connection->statement(
+                'ALTER TABLE '.$this->transactionTable().' ALTER payable_id TYPE UUID USING payable_id::uuid;'
+            );
+            $connection->statement(
+                'ALTER TABLE '.$this->walletTable().' ALTER holder_id TYPE UUID USING holder_id::uuid;'
+            );
 
             return;
         }
