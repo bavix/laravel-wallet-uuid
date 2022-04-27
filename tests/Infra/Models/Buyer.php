@@ -4,24 +4,13 @@ declare(strict_types=1);
 
 namespace Bavix\WalletUuid\Test\Infra\Models;
 
-use Dyrynda\Database\Casts\EfficientUuid;
-use Dyrynda\Database\Support\GeneratesUuid;
+use Bavix\WalletUuid\Test\Infra\Uuids;
 
 /**
  * @internal
  */
 final class Buyer extends \Bavix\Wallet\Test\Infra\Models\Buyer
 {
-    use GeneratesUuid;
-
+    use Uuids;
     public $incrementing = false;
-
-    protected $casts = [
-        'id' => EfficientUuid::class,
-    ];
-
-    public function uuidColumn(): string
-    {
-        return 'id';
-    }
 }
