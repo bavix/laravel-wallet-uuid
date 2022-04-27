@@ -12,11 +12,11 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::table($this->transactionTable(), static function (Blueprint $table) {
-            $table->dropColumn('payable_id');
+            $table->uuid('payable_id')->change();
         });
 
         Schema::table($this->walletTable(), static function (Blueprint $table) {
-            $table->dropColumn('holder_id');
+            $table->uuid('holder_id')->change();
         });
     }
 
