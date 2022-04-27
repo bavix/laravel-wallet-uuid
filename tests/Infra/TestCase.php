@@ -6,7 +6,6 @@ namespace Bavix\WalletUuid\Test\Infra;
 
 use Bavix\Wallet\WalletServiceProvider;
 use Bavix\WalletUuid\WalletUuidServiceProvider;
-use Dyrynda\Database\LaravelEfficientUuidServiceProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,12 +30,7 @@ abstract class TestCase extends OrchestraTestCase
      */
     protected function getPackageProviders($app): array
     {
-        return [
-            LaravelEfficientUuidServiceProvider::class,
-            WalletServiceProvider::class,
-            WalletUuidServiceProvider::class,
-            TestServiceProvider::class,
-        ];
+        return [WalletServiceProvider::class, WalletUuidServiceProvider::class, TestServiceProvider::class];
     }
 
     /**

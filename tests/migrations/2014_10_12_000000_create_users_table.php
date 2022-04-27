@@ -10,7 +10,7 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::create('users', static function (Blueprint $table) {
-            $table->efficientUuid('id')
+            $table->uuid('id')
                 ->primary()
             ;
             $table->string('name');
