@@ -12,5 +12,6 @@ use Bavix\WalletUuid\Test\Infra\Uuids;
 final class Buyer extends \Bavix\Wallet\Test\Infra\Models\Buyer
 {
     use Uuids;
+
     public $incrementing = false;
 }

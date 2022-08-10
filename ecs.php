@@ -9,43 +9,44 @@ use PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocToCommentFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitTestClassRequiresCoversFixer;
 use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
+return static function (ECSConfig $config): void {
+    $services = $config->services();
     $services->set(ArraySyntaxFixer::class)
         ->call('configure', [[
             'syntax' => 'short',
         ]]);
 
     $services->set(DeclareStrictTypesFixer::class);
+    $services->set(NoUnusedImportsFixer::class);
     $services->set(LineLengthFixer::class);
 
-    $parameters = $containerConfigurator->parameters();
+    $parameters = $config->parameters();
     $parameters->set(Option::PARALLEL, true);
-    $parameters->set(Option::PATHS, [
+
+    $config->paths([
         __DIR__ . '/database',
         __DIR__ . '/src',
         __DIR__ . '/tests',
     ]);
 
-    $parameters->set(Option::SKIP, [
+    $config->skip([
         PhpdocToCommentFixer::class,
         GeneralPhpdocAnnotationRemoveFixer::class,
         NotOperatorWithSuccessorSpaceFixer::class,
         PhpUnitTestClassRequiresCoversFixer::class,
     ]);
 
-    $containerConfigurator->import(SetList::CLEAN_CODE);
-    $containerConfigurator->import(SetList::SYMPLIFY);
-    $containerConfigurator->import(SetList::COMMON);
-    $containerConfigurator->import(SetList::PSR_12);
-    $containerConfigurator->import(SetList::PHP_CS_FIXER);
-    $containerConfigurator->import(SetList::CONTROL_STRUCTURES);
-    $containerConfigurator->import(SetList::NAMESPACES);
-    $containerConfigurator->import(SetList::STRICT);
-    $containerConfigurator->import(SetList::PHPUNIT);
+    $config->import(SetList::CLEAN_CODE);
+    $config->import(SetList::SYMPLIFY);
+    $config->import(SetList::COMMON);
+    $config->import(SetList::PSR_12);
+    $config->import(SetList::CONTROL_STRUCTURES);
+    $config->import(SetList::NAMESPACES);
+    $config->import(SetList::STRICT);
+    $config->import(SetList::PHPUNIT);
 };
