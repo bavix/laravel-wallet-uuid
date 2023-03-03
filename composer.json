@@ -29,7 +29,7 @@
     "brianium/paratest": "^6.4",
     "ergebnis/phpstan-rules": "^1.0",
     "infection/infection": "~0.26",
-    "nunomaduro/collision": "^6.2",
+    "nunomaduro/collision": "^7.1",
     "orchestra/testbench": "^7.4",
     "phpstan/phpstan": "^1.5",
     "phpunit/phpunit": "^9.5",
