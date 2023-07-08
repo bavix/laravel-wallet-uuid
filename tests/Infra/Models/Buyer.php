@@ -19,6 +19,8 @@ final class Buyer extends Model implements Customer
     use CanPay;
     use HasWallets;
 
+    public $incrementing = false;
+
     public function getTable(): string
     {
         return 'users';
