@@ -14,8 +14,10 @@ final class BuyerFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()
+            'name' => fake()
+                ->name(),
+            'email' => fake()
+                ->unique()
                 ->safeEmail,
         ];
     }

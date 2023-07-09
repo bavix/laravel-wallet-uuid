@@ -22,20 +22,20 @@
     }
   ],
   "require": {
-    "php": "^8.0",
-    "bavix/laravel-wallet": "^9.0"
+    "php": "^8.1",
+    "bavix/laravel-wallet": "^10.0"
   },
   "require-dev": {
-    "brianium/paratest": "^6.4",
+    "brianium/paratest": "^7.2",
+    "driftingly/rector-laravel": "^0.21.0",
     "ergebnis/phpstan-rules": "^1.0",
-    "infection/infection": "~0.26",
-    "nunomaduro/collision": "^6.2",
-    "orchestra/testbench": "^7.4",
-    "phpstan/phpstan": "^1.5",
-    "phpunit/phpunit": "^9.5",
-    "rector/rector": "^0.14",
-    "symplify/easy-coding-standard": "^11.1",
-    "vimeo/psalm": "^4.13"
+    "infection/infection": "~0.27",
+    "nunomaduro/collision": "^7.7",
+    "orchestra/testbench": "^8.5",
+    "phpstan/phpstan": "^1.10",
+    "phpunit/phpunit": "^10.2",
+    "rector/rector": "^0.17",
+    "symplify/easy-coding-standard": "^11.5"
   },
   "autoload": {
     "psr-4": {
@@ -65,8 +65,6 @@
     "ecs": "@php vendor/bin/ecs check",
     "ecs-fix": "@php vendor/bin/ecs check --fix",
     "ecs-cc": "@php vendor/bin/ecs --clear-cache",
-    "psalm": "@php vendor/bin/psalm",
-    "psalm-cc": "@php vendor/bin/psalm --clear-cache",
     "rector": "@php vendor/bin/rector process --dry-run",
     "rector-fix": "@php vendor/bin/rector process"
   },
