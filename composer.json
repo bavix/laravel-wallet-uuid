@@ -27,7 +27,7 @@
   },
   "require-dev": {
     "brianium/paratest": "^7.2",
-    "driftingly/rector-laravel": "^0.22.0",
+    "driftingly/rector-laravel": "^0.24.0",
     "ergebnis/phpstan-rules": "^1.0",
     "infection/infection": "~0.27",
     "nunomaduro/collision": "^7.7",
