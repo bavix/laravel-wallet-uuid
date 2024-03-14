@@ -43,8 +43,7 @@ return new class() extends Migration
                     ->change();
 
                 $table->uuid('payable_id')
-                    ->change()
-                ;
+                    ->change();
             });
 
             Schema::table($this->walletTable(), static function (Blueprint $table) {
@@ -52,8 +51,7 @@ return new class() extends Migration
                     ->change();
 
                 $table->uuid('holder_id')
-                    ->change()
-                ;
+                    ->change();
             });
 
             return;
