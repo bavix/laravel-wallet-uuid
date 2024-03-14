@@ -12,7 +12,72 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: [8.2, 8.3]
+        php-versions: [8.1, 8.2]
+        databases: [testing, pgsql, mysql, mariadb]
+        caches: [array, redis, memcached]
+
+    services:
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+        ports:
+          - 6379:6379
+
+      memcached:
+        image: memcached
+        options: >-
+          --health-cmd "timeout 5 bash -c 'cat < /dev/null > /dev/udp/127.0.0.1/11211'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+        ports:
+          - 11211:11211
+
+      pgsql:
+        image: postgres
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: wallet
+          POSTGRES_DB: wallet
+          POSTGRES_INITDB_ARGS: '--encoding=UTF-8 --lc-collate=C --lc-ctype=C'
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+        ports:
+          - 5432:5432
+
+      mysql:
+        image: bitnami/mysql:8.0
+        env:
+          MYSQL_AUTHENTICATION_PLUGIN: mysql_native_password
+          MYSQL_ROOT_PASSWORD: wallet
+          MYSQL_DATABASE: wallet
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+        ports:
+          - 3306:3306
+
+      mariadb:
+        image: mariadb:10.5
+        env:
+          MYSQL_ROOT_PASSWORD: wallet
+          MYSQL_DATABASE: wallet
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+        ports:
+          - 3307:3306
 
     steps:
       - name: Checkout
@@ -44,6 +109,18 @@ jobs:
         id: composer-dependencies
         run: composer install --prefer-dist --no-progress
 
+      - name: Check codeclimate
+        id: codeclimate-check
+        run: echo "execute=${{ matrix.php-versions == '8.2' && matrix.caches == 'array' && matrix.databases == 'testing' }}" >> $GITHUB_OUTPUT
+
+      - name: Prepare codeclimate
+        id: codeclimate-prepare
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
+        if: ${{ steps.codeclimate-check.outputs.execute == 'true' }}
+
       - name: Prepare run test suite
         id: unit-prepare
         run: |
@@ -52,7 +129,25 @@ jobs:
       - name: Run test suite
         id: unit-run
         run: composer parabench
+        env:
+          CACHE_DRIVER: ${{ matrix.caches }}
+          DB_CONNECTION: ${{ matrix.databases }}
 
       - name: Run mutation test suite
         id: infect-run
         run: composer infect
+        env:
+          CACHE_DRIVER: ${{ matrix.caches }}
+          DB_CONNECTION: ${{ matrix.databases }}
+          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
+        if: ${{ steps.codeclimate-check.outputs.execute == 'true' }}
+
+      - name: Send coverage
+        id: codeclimate-send
+        run: |
+          ./cc-test-reporter after-build --coverage-input-type clover --exit-code 0
+          bash <(curl -s https://codecov.io/bash)
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        if: ${{ steps.codeclimate-check.outputs.execute == 'true' }}
