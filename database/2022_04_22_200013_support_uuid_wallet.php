@@ -45,7 +45,9 @@ return new class() extends Migration
                 $table->dropIndex('payable_type_confirmed_ind');
 
                 $table->dropColumn('payable_id');
+            });
 
+            Schema::table($this->transactionTable(), static function (Blueprint $table) {
                 $table->uuid('payable_id')
                     ->after('payable_type')
                 ;
@@ -60,7 +62,9 @@ return new class() extends Migration
                 $table->dropUnique(['holder_type', 'holder_id', 'slug']);
 
                 $table->dropColumn('holder_id');
+            });
 
+            Schema::table($this->walletTable(), static function (Blueprint $table) {
                 $table->uuid('holder_id');
 
                 $table->unique(['holder_type', 'holder_id', 'slug']);
