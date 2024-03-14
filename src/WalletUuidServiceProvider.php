@@ -12,11 +12,11 @@ final class WalletUuidServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if ($this->shouldMigrate()) {
-            $this->loadMigrationsFrom([dirname(__DIR__) . '/database']);
+            $this->loadMigrationsFrom([dirname(__DIR__).'/database']);
         }
 
         $this->publishes([
-            dirname(__DIR__) . '/database/' => database_path('migrations'),
+            dirname(__DIR__).'/database/' => database_path('migrations'),
         ], 'laravel-wallet-uuid-migrations');
     }
 
