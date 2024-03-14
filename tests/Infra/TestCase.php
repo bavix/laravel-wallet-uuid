@@ -45,18 +45,13 @@ abstract class TestCase extends OrchestraTestCase
         $config->set('database.connections.testing.prefix', 'tests');
         $config->set('database.connections.pgsql.prefix', 'tests');
         $config->set('database.connections.mysql.prefix', 'tests');
+        $config->set('database.connections.mariadb.prefix', 'tests');
 
-        $mysql = $config->get('database.connections.mysql');
-        $config->set('database.connections.mariadb', array_merge($mysql, [
-            'port' => 3307,
-        ]));
+        $config->set('database.connections.mariadb.port', 3307);
 
         // new table name's
         $config->set('wallet.transaction.table', 'transaction');
         $config->set('wallet.transfer.table', 'transfer');
         $config->set('wallet.wallet.table', 'wallet');
-
-        $config->set('wallet.cache.driver', $config->get('cache.driver'));
-        $config->set('wallet.lock.driver', $config->get('cache.driver'));
     }
 }

@@ -6,13 +6,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class() extends Migration {
+return new class() extends Migration
+{
     public function up(): void
     {
         Schema::create('items', static function (Blueprint $table) {
             $table->uuid('id')
-                ->primary()
-            ;
+                ->primary();
             $table->string('name');
             $table->integer('price');
             $table->unsignedSmallInteger('quantity');
