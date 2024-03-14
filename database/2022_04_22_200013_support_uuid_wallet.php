@@ -9,7 +9,8 @@ use Illuminate\Database\PostgresConnection;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class() extends Migration {
+return new class() extends Migration
+{
     public function up(): void
     {
         $connection = Schema::getConnection();
@@ -17,21 +18,19 @@ return new class() extends Migration {
         if ($connection instanceof PostgresConnection) {
             Schema::table($this->transactionTable(), static function (Blueprint $table) {
                 $table->string('payable_id')
-                    ->change()
-                ;
+                    ->change();
             });
 
             Schema::table($this->walletTable(), static function (Blueprint $table) {
                 $table->string('holder_id')
-                    ->change()
-                ;
+                    ->change();
             });
 
             $connection->statement(
-                'ALTER TABLE ' . $connection->getTablePrefix() . $this->transactionTable() . ' ALTER payable_id TYPE UUID USING payable_id::uuid;'
+                'ALTER TABLE '.$connection->getTablePrefix().$this->transactionTable().' ALTER payable_id TYPE UUID USING payable_id::uuid;'
             );
             $connection->statement(
-                'ALTER TABLE ' . $connection->getTablePrefix() . $this->walletTable() . ' ALTER holder_id TYPE UUID USING holder_id::uuid;'
+                'ALTER TABLE '.$connection->getTablePrefix().$this->walletTable().' ALTER holder_id TYPE UUID USING holder_id::uuid;'
             );
 
             return;
@@ -39,14 +38,12 @@ return new class() extends Migration {
 
         Schema::table($this->transactionTable(), static function (Blueprint $table) {
             $table->uuid('payable_id')
-                ->change()
-            ;
+                ->change();
         });
 
         Schema::table($this->walletTable(), static function (Blueprint $table) {
             $table->uuid('holder_id')
-                ->change()
-            ;
+                ->change();
         });
     }
 
