@@ -47,8 +47,7 @@ return new class() extends Migration
                 $table->dropColumn('payable_id');
 
                 $table->uuid('payable_id')
-                    ->after('payable_type')
-                ;
+                    ->after('payable_type');
 
                 $table->index(['payable_type', 'payable_id'], 'payable_type_payable_id_ind');
                 $table->index(['payable_type', 'payable_id', 'type'], 'payable_type_ind');
