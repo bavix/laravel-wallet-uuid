@@ -139,7 +139,8 @@ jobs:
         id: infect-run
         run: composer infect
         env:
-          CACHE_DRIVER: ${{ matrix.caches }}
+          WALLET_CACHE_DRIVER: ${{ matrix.caches }}
+          WALLET_LOCK_DRIVER: ${{ matrix.locks }}
           DB_CONNECTION: ${{ matrix.databases }}
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
         if: ${{ steps.codeclimate-check.outputs.execute == 'true' }}
