@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Bavix\Wallet\Models\Transaction;
 use Bavix\Wallet\Models\Wallet;
+use Illuminate\Database\MariaDbConnection;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\PostgresConnection;
 use Illuminate\Database\Schema\Blueprint;
@@ -33,6 +34,28 @@ return new class() extends Migration {
             $connection->statement(
                 'ALTER TABLE ' . $connection->getTablePrefix() . $this->walletTable() . ' ALTER holder_id TYPE UUID USING holder_id::uuid;'
             );
+
+            return;
+        }
+
+        if ($connection instanceof MariaDbConnection) {
+            Schema::table($this->transactionTable(), static function (Blueprint $table) {
+                $table->string('payable_id')
+                    ->change();
+
+                $table->uuid('payable_id')
+                    ->change()
+                ;
+            });
+
+            Schema::table($this->walletTable(), static function (Blueprint $table) {
+                $table->string('holder_id')
+                    ->change();
+
+                $table->uuid('holder_id')
+                    ->change()
+                ;
+            });
 
             return;
         }
