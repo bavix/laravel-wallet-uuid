@@ -7,8 +7,3 @@ laravel-wallet-uuid - Addition to the package laravel-wallet.
 * **Vendor**: bavix
 * **Package**: laravel-wallet-uuid
 * **[Composer](https://getcomposer.org/):** `composer require bavix/laravel-wallet-uuid`
-
----
-Supported by
-
-[![Supported by JetBrains](https://cdn.rawgit.com/bavix/development-through/46475b4b/jetbrains.svg)](https://www.jetbrains.com/)
