@@ -21,6 +21,7 @@ final class Buyer extends Model implements Customer
 
     public $incrementing = false;
 
+    #[\Override]
     public function getTable(): string
     {
         return 'users';
